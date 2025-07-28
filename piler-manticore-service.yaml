@@ -18,5 +18,9 @@ spec:
       port: 9307
       targetPort: 9307
       name: readonly
+    - protocol: TCP
+      port: 9312
+      targetPort: 9312
+      name: manticore
   selector:
     app: piler-manticore
