@@ -12,6 +12,17 @@ spec:
       labels:
         app: piler-manticore
     spec:
+      initContainers:
+        - name: conf-copy
+          image: busybox:latest
+          command:
+          - cp
+          - /etc/manticoresearch/manticore-src.conf
+          - /etc/manticoresearch/manticore.conf
+          volumeMounts:
+            - name: manticore-config-volume
+              mountPath: /etc/manticoresearch/manticore-src.conf
+              subPath: manticore.conf
       containers:
         - name: piler-manticore
           image: manticoresearch/manticore:10.1.0
@@ -24,9 +35,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/manticore
               name: manticore-volume
-            - name: manticore-config-volume
-              mountPath: /etc/manticoresearch/manticore.conf
-              subPath: manticore.conf
       volumes:
         - name: manticore-volume
           persistentVolumeClaim:
