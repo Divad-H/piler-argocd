@@ -37,9 +37,9 @@ spec:
               name: manticore-volume
           ports:
             - containerPort: 9306
-              name: mysql-clients-port
+              name: mysql-clients
             - containerPort: 9308
-              name: http-clients-port
+              name: http-clients
       volumes:
         - name: manticore-volume
           persistentVolumeClaim:

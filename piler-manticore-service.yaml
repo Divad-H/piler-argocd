@@ -9,10 +9,10 @@ spec:
     - protocol: TCP
       port: 9306
       targetPort: 9306
-      name: mysql-clients-port
+      name: mysql-clients
     - protocol: TCP
       port: 9308
       targetPort: 9308
-      name: http-clients-port
+      name: http-clients
   selector:
     app: piler-manticore
