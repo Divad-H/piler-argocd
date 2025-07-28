@@ -42,6 +42,8 @@ spec:
               name: readonly
             - containerPort: 9308
               name: http-clients
+            - containerPort: 9312
+              name: manticore
       volumes:
         - name: manticore-volume
           persistentVolumeClaim:
