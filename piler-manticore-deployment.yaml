@@ -38,6 +38,8 @@ spec:
           ports:
             - containerPort: 9306
               name: mysql-clients
+            - containerPort: 9307
+              name: readonly
             - containerPort: 9308
               name: http-clients
       volumes:
