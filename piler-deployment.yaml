@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piler
+  template:
+    metadata:
+      labels:
+        app: piler
+    spec:
+      containers:
+        - name: piler
+          image: sutoj/piler:1.4.7
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+            limits:
+              memory: "512Mi"
+          env:
+            - name: MANTICORE_HOSTNAME
+              value: piler-manticore.piler.svc.cluster.local
+            - name: MEMCACHED_HOSTNAME
+              value: piler-memcached.piler.svc.cluster.local
+            - name: MYSQL_HOSTNAME
+              value: piler-mysql.piler.svc.cluster.local
+            - name: MYSQL_DATABASE
+              value: piler
+            - name: PILER_HOSTNAME
+              value: piler.local
+            - name: RT
+              value: 1
+          envFrom:
+          - secretRef:
+              name: secrets
+          volumeMounts:
+            - mountPath: /var/piler/store
+              name: piler-store-volume
+            - mountPath: /etc/piler
+              name: piler-etc-volume
+      volumes:
+        - name: piler-store-volume
+          persistentVolumeClaim:
+            claimName: piler-store-volume-claim
+        - name: piler-etc-volume
+          persistentVolumeClaim:
+            claimName: piler-etc-volume-claim

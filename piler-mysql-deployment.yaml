@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piler-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piler-mysql
+  template:
+    metadata:
+      labels:
+        app: piler-mysql
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: slave-pi-1
+      containers:
+        - name: piler-mysql
+          image: mariadb:11
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: piler
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: yes
+          envFrom:
+          - secretRef:
+              name: secrets
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysqldata
+            - name: piler-config-volume
+              mountPath: /etc/mysql/conf.d/piler.cnf
+              subPath: piler.cnf
+          args: 
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+          securityContext:
+            capabilities:
+              add:
+              - dac_override
+              - setuid
+              - setgid
+              drop:
+              - ALL
+      volumes:
+        - name: mysqldata
+          persistentVolumeClaim:
+            claimName: piler-mysql-volume-claim
+        - name: piler-config-volume
+          configMap:
+            name: piler-config

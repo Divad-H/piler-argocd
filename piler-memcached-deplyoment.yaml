@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piler-memcached
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piler-memcached
+  template:
+    metadata:
+      labels:
+        app: piler-memcached
+    spec:
+      containers:
+        - name: piler-memcached
+          image: memcached
+          imagePullPolicy: IfNotPresent
+          args: 
+            - -m 64

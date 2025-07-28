@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piler-manticore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piler-manticore
+  template:
+    metadata:
+      labels:
+        app: piler-manticore
+    spec:
+      containers:
+        - name: piler-manticore
+          image: manticoresearch/manticore:10.1.0
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+            limits:
+              memory: "512Mi"
+          volumeMounts:
+            - mountPath: /var/lib/manticore
+              name: manticore-volume
+            - name: manticore-config-volume
+              mountPath: /etc/manticoresearch/manticore.conf
+              subPath: manticore.conf
+      volumes:
+        - name: manticore-volume
+          persistentVolumeClaim:
+            claimName: piler-manticore-volume-claim
+        - name: manticore-config-volume
+          configMap:
+            name: manticore-config

@@ -1,0 +1,18 @@
+resources:
+- piler-hynix-storage-class.yaml
+- sealed-secrets.yaml
+- piler-config.yaml
+- manticore-config.yaml
+- piler-store-volume-claim.yaml
+- piler-mysql-volume-claim.yaml
+- piler-etc-volume-claim.yaml
+- piler-manticore-volume-claim.yaml
+- piler-mysql-service.yaml
+- piler-memcached-service.yaml
+- piler-manticore-service.yaml
+- piler-service.yaml
+- piler-mysql-deployment.yaml
+- piler-manticore-deployment.yaml
+- piler-memcached-deplyoment.yaml
+- piler-deployment.yaml
+- piler-ingress-route-local.yaml
