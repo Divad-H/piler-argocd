@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: piler
+  name: piler-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: piler
+      app: piler-service
   template:
     metadata:
       labels:
-        app: piler
+        app: piler-service
     spec:
       containers:
-        - name: piler
+        - name: piler-service
           image: sutoj/piler:1.4.7
           imagePullPolicy: IfNotPresent
           resources:

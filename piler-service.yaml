@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: piler
+  name: piler-service
   labels:
-    app: piler
+    app: piler-service
 spec:
   ports:
     - port: 25
@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       targetPort: 80
   selector:
-    app: piler
+    app: piler-service

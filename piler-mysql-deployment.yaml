@@ -14,6 +14,17 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/hostname: slave-pi-1
+      initContainers:
+        - name: chmod-er
+          image: busybox:latest
+          command:
+          - /bin/chown
+          - -R
+          - "1000"  # or whatever the mongo UID is
+          - /var/lib/mysql
+          volumeMounts:
+          - name: mysqldata
+            mountPath: /var/lib/mysql
       containers:
         - name: piler-mysql
           image: mariadb:11

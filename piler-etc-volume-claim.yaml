@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: piler-etc-volume-claim
   labels:
-    app: piler
+    app: piler-service
 spec:
   storageClassName: piler-hynix-storage-class
   accessModes:
