@@ -33,7 +33,7 @@ spec:
             - name: PILER_HOSTNAME
               value: piler.local
             - name: RT
-              value: 1
+              value: "1"
           envFrom:
           - secretRef:
               name: secrets
