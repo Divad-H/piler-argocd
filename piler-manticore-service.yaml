@@ -6,7 +6,13 @@ metadata:
     app: piler-manticore
 spec:
   ports:
-    - port: 9306
-    - port: 9308
+    - protocol: TCP
+      port: 9306
+      targetPort: 9306
+      name: mysql-clients-port
+    - protocol: TCP
+      port: 9308
+      targetPort: 9308
+      name: http-clients-port
   selector:
     app: piler-manticore

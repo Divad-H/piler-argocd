@@ -35,6 +35,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/manticore
               name: manticore-volume
+          ports:
+            - containerPort: 9306
+              name: mysql-clients-port
+            - containerPort: 9308
+              name: http-clients-port
       volumes:
         - name: manticore-volume
           persistentVolumeClaim:

@@ -6,7 +6,13 @@ metadata:
     app: piler-service
 spec:
   ports:
-    - port: 25
-    - port: 80
+    - protocol: TCP
+      port: 25
+      targetPort: 25
+      name: smtp-port
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      name: http-web-port
   selector:
     app: piler-service

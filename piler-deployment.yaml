@@ -42,6 +42,11 @@ spec:
               name: piler-store-volume
             - mountPath: /etc/piler
               name: piler-etc-volume
+          ports:
+            - containerPort: 25
+              name: smtp-port
+            - containerPort: 80
+              name: http-web-port
       volumes:
         - name: piler-store-volume
           persistentVolumeClaim:

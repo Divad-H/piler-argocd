@@ -6,6 +6,8 @@ metadata:
     app: piler-memcached
 spec:
   ports:
-    - port: 11211
+    - protocol: TCP
+      port: 11211
+      targetPort: 11211
   selector:
     app: piler-memcached
