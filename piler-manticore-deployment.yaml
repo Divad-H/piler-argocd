@@ -27,7 +27,7 @@ spec:
               name: manticore-etc-volume
       containers:
         - name: piler-manticore
-          image: manticoresearch/manticore:10.1.0
+          image: manticoresearch/manticore:6.3.8
           imagePullPolicy: IfNotPresent
           resources:
             requests:
