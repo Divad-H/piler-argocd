@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: auto-import-cron
+spec:
+  schedule: "0 0 1 * *"  # At 00:00 on day 1 of every month
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: auto-import
+            image: curlimages/curl:latest
+            command: ["sh", "/scripts/auto-import.sh"]
+            envFrom:
+            - secretRef:
+                name: auto-import-secrets
+            env:
+              - name: PILER_HOSTNAME
+                value: "http://piler.local"
+            volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+              readOnly: true
+          restartPolicy: OnFailure
+          volumes:
+          - name: script-volume
+            configMap:
+              name: auto-import-script
+              defaultMode: 0755

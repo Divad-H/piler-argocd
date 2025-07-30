@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auto-import-script
+data:
+  auto-import.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    : "${PILER_HOSTNAME:?Need to set PILER_HOSTNAME}"
+    : "${LOGIN_USERNAME:?Need to set LOGIN_USERNAME}"
+    : "${LOGIN_PASSWORD:?Need to set LOGIN_PASSWORD}"
+    : "${IMAP_USERNAME:?Need to set IMAP_USERNAME}"
+    : "${IMAP_PASSWORD:?Need to set IMAP_PASSWORD}"
+    : "${IMAP_SERVER:?Need to set IMAP_SERVER}"
+
+    # Step 1: Login and extract PHPSESSID
+    PHPSESSID_VALUE=$(curl -s -i -X POST ${PILER_HOSTNAME}/login.php \
+      -d "relocation=&username=${LOGIN_USERNAME}&password=${LOGIN_PASSWORD}" \
+      | grep -i 'Set-Cookie' | grep -o 'PHPSESSID=[^;]*' | cut -d= -f2) || {
+        echo "Error: Failed to perform login request."
+        exit 1
+    }
+
+    # Check if we got the session ID
+    if [ -z "$PHPSESSID_VALUE" ]; then
+      echo "Login failed or PHPSESSID not found."
+      exit 1
+    fi
+
+    echo "Logged in."
+
+    # Step 2: Make authenticated POST request
+    STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+      "${PILER_HOSTNAME}/index.php?route=import/list" \
+      -b "PHPSESSID=$PHPSESSID_VALUE" \
+      -d "type=imap-tls&server=${IMAP_SERVER}&username=${IMAP_USERNAME}&password=${IMAP_PASSWORD}")
+
+    echo "$STATUS_CODE"
+

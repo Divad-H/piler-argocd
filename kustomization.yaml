@@ -17,3 +17,6 @@ resources:
 - piler-memcached-deplyoment.yaml
 - piler-deployment.yaml
 - piler-ingress-route-local.yaml
+- auto-import-sealed-secrets.yaml
+- auto-import-script.yaml
+- auto-import-cron.yaml
